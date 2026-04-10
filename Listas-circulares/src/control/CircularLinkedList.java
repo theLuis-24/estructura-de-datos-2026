@@ -52,6 +52,35 @@ public class CircularLinkedList {
         Node previous = tail;
 
         do {
+            if (current.getValue().getFullName().equalsIgnoreCase(name)){
+
+
+                //caso 1: unico nombre
+                if(current == tail && current.getNext() == tail){
+                    tail=null;
+                }
+
+
+                //caso 2: eliminar primer nodo
+                else if (current == tail.getNext()) {
+                    tail.setNext(current.getNext());
+                }
+
+                //caso 3: eliminar ultimo nodo
+
+                else if (current == tail) {
+                    previous.setNext(current.getNext());
+                    tail=previous;
+                }
+
+                //caso 4: Nodo intermedio
+                else {
+                    previous.setNext(current.getNext());
+                }
+                size --;
+                return true;
+            }
+
 
         }while (current != tail.getNext());
         return false;
