@@ -15,7 +15,7 @@ public class CircularLinkedList {
     public  void add(Contact contact){
         Node newNode = new Node(contact);
 
-        if(tail == null){
+        if(isEmpty()){
             //lista vacia
             tail=newNode;
             tail.setNext(tail);
@@ -44,46 +44,66 @@ public class CircularLinkedList {
         return null;
     }
 
-    //eliminar
+    // 🔥 eliminar (versión refactorizada)
     public boolean deleteByName(String name){
-        if(tail == null) return false;
+        if(isEmpty()) return false;
 
         Node current = tail.getNext();
         Node previous = tail;
 
         do {
-            if (current.getValue().getFullName().equalsIgnoreCase(name)){
+            if(current.getValue().getFullName().equalsIgnoreCase(name)){
 
-
-                //caso 1: unico nombre
+                // único nodo
                 if(current == tail && current.getNext() == tail){
-                    tail=null;
-                }
-
-
-                //caso 2: eliminar primer nodo
-                else if (current == tail.getNext()) {
-                    tail.setNext(current.getNext());
-                }
-
-                //caso 3: eliminar ultimo nodo
-
-                else if (current == tail) {
+                    tail = null;
+                } else {
                     previous.setNext(current.getNext());
-                    tail=previous;
+
+                    // si eliminas el tail
+                    if(current == tail){
+                        tail = previous;
+                    }
                 }
 
-                //caso 4: Nodo intermedio
-                else {
-                    previous.setNext(current.getNext());
-                }
-                size --;
+                size--;
                 return true;
             }
 
+            previous = current;
+            current = current.getNext();
 
-        }while (current != tail.getNext());
+        } while (current != tail.getNext());
+
         return false;
+    }
+
+    //mostra relemento de logica
+
+    public void listAll(){
+        if(tail==null){
+            System.out.println("lista vacia");
+            return;
+        }
+
+        Node current = tail.getNext();
+
+        do{
+            System.out.println(current.getValue());
+            current = current.getNext();
+        }while (current != tail.getNext());
+    }
+
+    //Obtener el tamaño de la lista
+    public int getSize(){
+        return size;
+
+    }
+
+    //verificar si la lista esta vacia
+
+    public boolean isEmpty(){
+        return  tail == null;
     }
 
 }
